@@ -260,14 +260,14 @@ while len(votes) > 0:
                 #print("ignoring", vote2_id, vote2_total, file=sys.stderr)
 
 print("\nRanking:");
-r = 1
+r = 0
 previous_lovelaces = None
 for (id, ticker, votes) in ranking:
     lovelaces = sum(votes[0])
+    if previous_lovelaces is None or lovelaces < previous_lovelaces:
+        r += 1
     print("{:>3}\t{:,.0f}\t{}\t{}".format(r,
             lovelaces/1000000,
             len([v for v in votes[0] if v > 0]),
             ticker))
-    if previous_lovelaces is None or lovelaces < previous_lovelaces:
-        r += 1
     previous_lovelaces = lovelaces
