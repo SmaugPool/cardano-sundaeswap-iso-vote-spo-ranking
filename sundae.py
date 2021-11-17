@@ -195,7 +195,7 @@ for record in cursor:
         continue
 
     dump[addr] = {}
-    dump[addr] = [total, vote1, vote2]
+    dump[addr] = [total, vote1, vote2, tx_hash.hex()]
 
     votes[vote1][0].append(total)
     # Ignore unrelevant second vote
