@@ -122,7 +122,7 @@ cursor.execute("""SELECT DISTINCT ON (tx.id)
     AND NOT EXISTS (
         SELECT TRUE FROM tx_out
         WHERE tx_out.tx_id=tx.id
-        AND tx_out.stake_address_id != stake_address.id
+        AND (tx_out.stake_address_id IS NULL OR tx_out.stake_address_id != stake_address.id)
     )
     AND NOT EXISTS (
         SELECT TRUE FROM ma_tx_out
@@ -134,7 +134,7 @@ cursor.execute("""SELECT DISTINCT ON (tx.id)
         INNER JOIN tx_out tx_out_in
             ON tx_out_in.tx_id = tx_in.tx_out_id
             AND tx_out_in.index = tx_in.tx_out_index
-            AND tx_out_in.stake_address_id != tx_out.stake_address_id
+            AND (tx_out_in.stake_address_id IS NULL OR tx_out_in.stake_address_id != tx_out.stake_address_id)
         WHERE tx_in.tx_in_id = tx.id
     )
     ORDER BY tx.id DESC
